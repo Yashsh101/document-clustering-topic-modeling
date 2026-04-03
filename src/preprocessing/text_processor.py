@@ -10,22 +10,10 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
 from src.config import PreprocessingConfig
+from src.utils.nltk_utils import ensure_nltk_resources
 
-# Download required NLTK resources
-try:
-    nltk.data.find("tokenizers/punkt")
-except LookupError:
-    nltk.download("punkt", quiet=True)
-
-try:
-    nltk.data.find("corpora/wordnet")
-except LookupError:
-    nltk.download("wordnet", quiet=True)
-
-try:
-    nltk.data.find("corpora/stopwords")
-except LookupError:
-    nltk.download("stopwords", quiet=True)
+# Ensure all required NLTK resources are available
+ensure_nltk_resources()
 
 
 class TextProcessor:

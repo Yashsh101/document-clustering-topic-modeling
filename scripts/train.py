@@ -10,8 +10,16 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.config import get_config
 from src.pipeline.orchestrator import Pipeline
 from src.logger import get_logger
+from src.utils.nltk_utils import ensure_nltk_resources
 
 logger = get_logger(__name__, log_file="artifacts/logs/train.log")
+
+# Ensure NLTK resources are available before training starts
+try:
+    ensure_nltk_resources()
+except Exception as e:
+    logger.error(f"Failed to initialize NLTK resources: {e}")
+    sys.exit(1)
 
 
 def main():

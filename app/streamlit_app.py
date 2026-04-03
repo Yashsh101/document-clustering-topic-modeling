@@ -16,8 +16,17 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.logger import get_logger
 from src.schema import PredictionResult
+from src.utils.nltk_utils import ensure_nltk_resources
 
 logger = get_logger(__name__)
+
+# Ensure NLTK resources are available at app startup
+try:
+    ensure_nltk_resources()
+except Exception as e:
+    st.error(f"❌ Failed to initialize NLTK resources: {e}")
+    logger.error(f"NLTK initialization failed: {e}")
+    st.stop()
 
 
 def ensure_models_exist(artifact_dir: str = "artifacts") -> bool:
