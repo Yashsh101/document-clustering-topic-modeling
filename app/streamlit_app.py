@@ -3,6 +3,7 @@
 
 import json
 import pickle
+import subprocess
 import sys
 from pathlib import Path
 
@@ -17,6 +18,70 @@ from src.logger import get_logger
 from src.schema import PredictionResult
 
 logger = get_logger(__name__)
+
+
+def ensure_models_exist(artifact_dir: str = "artifacts") -> bool:
+    """
+    Ensure models are trained. If not, train them automatically.
+    
+    Args:
+        artifact_dir: Path to artifacts directory
+        
+    Returns:
+        True if models exist or were successfully trained
+    """
+    models_dir = Path(artifact_dir) / "models"
+    required_files = ["vectorizer.pkl", "clusterer.pkl", "topic_modeler.pkl", "config.json"]
+    
+    # Check if all required files exist
+    files_exist = all((models_dir / f).exists() for f in required_files)
+    
+    if files_exist:
+        return True
+    
+    # Models don't exist - train them
+    st.warning("⏳ **Initializing models for first run...**")
+    st.info("Training the document clustering and topic modeling pipeline. This may take 30-60 seconds on first deployment...")
+    
+    progress_placeholder = st.empty()
+    status_placeholder = st.empty()
+    
+    try:
+        # Show status
+        with status_placeholder.container():
+            st.write("🔧 Training models on sample data...")
+        
+        # Run training script
+        train_script = Path(__file__).parent.parent / "scripts" / "train.py"
+        result = subprocess.run(
+            [sys.executable, str(train_script), "--data-dir", "data/sample"],
+            capture_output=True,
+            text=True,
+            timeout=300,  # 5 minute timeout
+            check=True
+        )
+        
+        with status_placeholder.container():
+            st.success("✅ Models trained successfully!")
+        
+        # Verify files exist
+        if not all((models_dir / f).exists() for f in required_files):
+            raise FileNotFoundError("Models were trained but files not found")
+        
+        return True
+        
+    except subprocess.TimeoutExpired:
+        st.error("❌ Model training timed out. Please try refreshing the page.")
+        logger.error("Training timed out")
+        return False
+    except subprocess.CalledProcessError as e:
+        st.error(f"❌ Model training failed: {e.stderr}")
+        logger.error(f"Training failed: {e.stderr}")
+        return False
+    except Exception as e:
+        st.error(f"❌ Failed to ensure models: {e}")
+        logger.error(f"Model ensure failed: {e}")
+        return False
 
 
 @st.cache_resource
@@ -95,6 +160,11 @@ def main():
         initial_sidebar_state="expanded",
     )
 
+    # Ensure models are trained (auto-train on first run)
+    if not ensure_models_exist():
+        st.error("❌ Failed to initialize models. Please check the logs.")
+        return
+
     # Load models
     try:
         vectorizer, clusterer, topic_modeler, config = load_models()
@@ -121,9 +191,8 @@ def main():
 
     if not models_loaded:
         st.error(
-            "❌ **Models not trained yet**\n\n"
-            "Please train the pipeline using:\n"
-            "```bash\npython scripts/train.py\n```"
+            "❌ **Failed to load models**\n\n"
+            "The models were trained but could not be loaded. Please check the logs."
         )
         return
 
