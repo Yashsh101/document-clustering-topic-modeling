@@ -156,6 +156,61 @@ Navigate to `http://localhost:8501` for:
 - **Topic Details** - Examine extracted topics
 - **Upload & Analyze** - Batch analysis from text files
 
+## ☁️ Cloud Deployment
+
+### Run Locally
+
+```bash
+# Ensure models are trained
+python scripts/train.py --data-dir data/sample
+
+# Launch the app
+streamlit run app/streamlit_app.py
+```
+
+The app will be available at `http://localhost:8501`
+
+### Deploy on Streamlit Community Cloud
+
+**Prerequisites:**
+- GitHub account with this repository pushed
+- Streamlit Community Cloud account (free at [streamlit.io/cloud](https://streamlit.io/cloud))
+
+**Deployment Steps:**
+
+1. **Push to GitHub**
+   ```bash
+   git push origin main
+   ```
+
+2. **Go to [Streamlit Community Cloud](https://share.streamlit.io)**
+   - Click "New app"
+   - Select your repository
+   - Set the following:
+     - **Repository:** `your-username/document-clustering-topic-modeling`
+     - **Branch:** `main`
+     - **Main file path:** `app/streamlit_app.py`
+   - Click "Deploy"
+
+**Configuration (Optional):**
+- Python version: 3.9+ (auto-detected)
+- Install dependencies from `requirements.txt` (automatic)
+
+**Important Notes:**
+- Models are trained on first run (takes ~30-60 seconds on first deployment)
+- Sample data (`data/sample/`) is included and used for training
+- All artifacts are generated at runtime in the temporary directory
+- The app gracefully handles missing models with helpful instructions
+
+### Environment Variables
+
+Create a `.env.local` file for local development (not tracked in git):
+```
+LOG_LEVEL=INFO
+```
+
+For Streamlit Cloud, use the Secrets management in the app dashboard if needed.
+
 ## 📈 Results & Metrics
 
 The pipeline evaluated on sample dataset achieves:
