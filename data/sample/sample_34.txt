@@ -1,0 +1,1 @@
+Mean squared error is common for regression problems.

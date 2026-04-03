@@ -1,0 +1,1 @@
+Gradient descent is a fundamental optimization algorithm for training models.

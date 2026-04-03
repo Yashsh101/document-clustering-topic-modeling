@@ -1,0 +1,1 @@
+Cross-entropy loss is standard for classification tasks.

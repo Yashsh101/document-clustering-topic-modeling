@@ -1,0 +1,67 @@
+# Environment variables
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Data and artifacts
+data/raw/*
+data/processed/*
+!data/sample/
+artifacts/models/*
+artifacts/plots/*
+artifacts/reports/*
+artifacts/predictions/*
+artifacts/logs/*
+
+# Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Logs
+logs/
+*.log
+
+# Misc
+.cache/
+*.pyc
+.mypy_cache/
+.dmypy.json
+dmypy.json

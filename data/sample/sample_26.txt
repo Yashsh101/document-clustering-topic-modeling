@@ -1,0 +1,1 @@
+Regularization techniques prevent overfitting by penalizing model complexity.

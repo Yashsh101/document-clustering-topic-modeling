@@ -1,0 +1,1 @@
+Recurrent neural networks process sequential data like time series.

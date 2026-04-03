@@ -1,0 +1,1 @@
+Pandas is essential for data manipulation and analysis in Python.

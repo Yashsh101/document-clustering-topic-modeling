@@ -1,0 +1,1 @@
+Dropout is a regularization technique that randomly disables neurons.

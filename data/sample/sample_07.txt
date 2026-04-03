@@ -1,0 +1,1 @@
+Unsupervised learning discovers patterns in unlabeled data.
