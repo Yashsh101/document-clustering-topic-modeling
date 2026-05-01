@@ -9,7 +9,7 @@ description = "A production-ready unsupervised NLP pipeline for clustering docum
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
-authors = [{ name = "ML Engineer" }]
+authors = [{ name = "Yash Sharma" }]
 keywords = ["nlp", "clustering", "topic-modeling", "machine-learning", "lda", "kmeans"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -44,9 +44,9 @@ dev = ["pytest>=6.0", "pytest-cov", "ruff", "black"]
 all = ["streamlit", "plotly"]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/document-clustering-topic-modeling"
-Documentation = "https://github.com/yourusername/document-clustering-topic-modeling"
-Repository = "https://github.com/yourusername/document-clustering-topic-modeling.git"
+Homepage = "https://github.com/Yashsh101/document-clustering-topic-modeling"
+Documentation = "https://github.com/Yashsh101/document-clustering-topic-modeling"
+Repository = "https://github.com/Yashsh101/document-clustering-topic-modeling.git"
 
 [tool.black]
 line-length = 100
