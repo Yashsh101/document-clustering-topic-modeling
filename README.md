@@ -7,6 +7,12 @@ Unsupervised NLP pipeline for grouping documents, extracting interpretable topic
 - Streamlit demo: https://document-clustering-topic-modeling-fckmphgfctfun5zxdxuor3.streamlit.app/
 - Local app: `streamlit run app/streamlit_app.py`
 
+## Visual Proof
+
+![Document clustering Streamlit placeholder](docs/images/document-clustering-placeholder.svg)
+
+Replace this placeholder with a real Streamlit screenshot after the next UI capture.
+
 ## Problem
 
 Teams often receive large sets of unstructured text such as customer feedback, research notes, tickets, or articles. Before labeling or building supervised models, they need a way to discover themes, inspect clusters, and understand whether the grouping is meaningful.
@@ -150,9 +156,9 @@ See `MODEL_CARD.md` for limitations and appropriate use.
 
 Screenshots should be added after the next deployed UI refresh:
 
-- `docs/screenshots/streamlit-overview.png`
-- `docs/screenshots/cluster-explorer.png`
-- `docs/screenshots/topic-summary.png`
+- `docs/images/streamlit-overview.png`
+- `docs/images/cluster-explorer.png`
+- `docs/images/topic-summary.png`
 
 ## Deployment
 
