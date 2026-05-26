@@ -66,3 +66,13 @@ logs/
 .dmypy.json
 dmypy.json
 *.pdf
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+credentials.json
+service-account*.json
+node_modules/
+.vercel/
+.railway/
