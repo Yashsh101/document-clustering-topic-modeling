@@ -19,7 +19,7 @@
 | Test result after remediation | **PASS — 29 passed, 0 failed** |
 | Lint | **PASS — ruff clean** |
 | Dockerfile | upgraded to multi-stage Python slim image with non-root runtime user |
-| CI/CD workflows | present; CI now includes explicit ruff lint, compile, and pytest gates |
+| CI/CD workflows | existing workflow present; an ruff-enabled workflow was validated locally but could not be pushed because the GitHub token lacks workflow-file permission |
 | Type hints | detected |
 | FastAPI / Pydantic | not applicable; Streamlit application with typed pipeline models |
 | `.env.example` | present |
@@ -34,7 +34,7 @@ The initial test attempt failed during collection because the audit environment 
 
 The source and tests contained 143 mechanical ruff findings, primarily whitespace, import ordering, comparison-style, and formatting issues. Ruff’s mechanical fixes were applied without changing the pipeline architecture or deleting tests. The deprecated top-level ruff configuration keys were moved into the current `[tool.ruff.lint]` section.
 
-The existing Dockerfile was replaced with a multi-stage `python:3.11-slim` build. Build dependencies and NLTK data are prepared in the builder stage; the runtime stage uses a non-root `app` user and preserves the existing Streamlit entrypoint. The CI workflow now installs ruff and runs lint, compile, and pytest checks. Docker build execution remains pending because Docker is unavailable in this audit environment.
+The existing Dockerfile was replaced with a multi-stage `python:3.11-slim` build. Build dependencies and NLTK data are prepared in the builder stage; the runtime stage uses a non-root `app` user and preserves the existing Streamlit entrypoint. A CI workflow adding ruff was validated locally, but GitHub rejected the branch push because the authenticated token lacks permission to create or update files under `.github/workflows/`; the workflow remains local-only and requires a token with workflow permission. Docker build execution remains pending because Docker is unavailable in this audit environment.
 
 ## Verification
 
@@ -47,4 +47,5 @@ docker build: NOT RUN — Docker unavailable
 
 ## Fix decision
 
-**Narrow remediation completed.** No architectural decision was required. Changes are limited to mechanical lint cleanup, current ruff configuration, Docker hardening, CI lint coverage, and this audit report. No `.env` file was touched, no tests were deleted, and `main` was not modified.
+**Narrow remediation completed with a CI permission blocker.** No architectural decision was required.
+ Changes are limited to mechanical lint cleanup, current ruff configuration, Docker hardening, CI lint coverage, and this audit report. No `.env` file was touched, no tests were deleted, and `main` was not modified.
