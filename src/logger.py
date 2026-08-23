@@ -18,11 +18,11 @@ def get_logger(name: str, log_file: Optional[str] = None) -> logging.Logger:
         Configured logger instance
     """
     logger = logging.getLogger(name)
-    
+
     # Avoid duplicate handlers
     if logger.hasHandlers():
         return logger
-    
+
     logger.setLevel(logging.DEBUG)
 
     # Console handler (INFO level)

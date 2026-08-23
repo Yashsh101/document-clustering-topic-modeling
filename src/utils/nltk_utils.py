@@ -1,6 +1,7 @@
 """NLTK resource management utilities."""
 
 import nltk
+
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -17,10 +18,10 @@ REQUIRED_RESOURCES = [
 def ensure_nltk_resources():
     """
     Ensure all required NLTK resources are available.
-    
+
     Downloads missing resources using quiet mode.
     Idempotent - safe to call repeatedly.
-    
+
     Raises:
         RuntimeError: If any resources fail to download
     """

@@ -5,6 +5,7 @@ import json
 import pickle
 import sys
 from pathlib import Path
+
 import numpy as np
 
 # Add src to path
@@ -53,7 +54,6 @@ def predict(
     cluster_ids = clusterer.predict(tfidf_matrix)
 
     # Transform to topic space
-    from sklearn.feature_extraction.text import CountVectorizer
     count_matrix = topic_modeler.count_vectorizer.transform(texts)
     doc_topics = topic_modeler.transform(count_matrix)
 

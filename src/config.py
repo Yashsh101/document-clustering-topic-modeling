@@ -1,7 +1,5 @@
 """Configuration management for document clustering and topic modeling pipeline."""
 
-from pathlib import Path
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
