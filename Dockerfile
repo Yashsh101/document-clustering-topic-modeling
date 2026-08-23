@@ -1,29 +1,32 @@
-FROM python:3.10-slim
+FROM python:3.11-slim AS builder
 
-WORKDIR /app
+WORKDIR /build
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
 COPY requirements.txt .
+RUN python -m pip install --no-cache-dir --prefix=/install -r requirements.txt \
+    && python -m nltk.downloader -d /nltk_data punkt stopwords wordnet averaged_perceptron_tagger
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+FROM python:3.11-slim AS runtime
 
-# Download NLTK data
-RUN python -m nltk.downloader punkt stopwords wordnet averaged_perceptron_tagger
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    NLTK_DATA=/usr/local/share/nltk_data
 
-# Copy project files
+RUN addgroup --system app \
+    && adduser --system --ingroup app app
+
+COPY --from=builder /install /usr/local
+COPY --from=builder /nltk_data /usr/local/share/nltk_data
 COPY . .
 
-# Expose port for Streamlit
+RUN chown -R app:app /app
+USER app
+
 EXPOSE 8501
-
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-
-# Run Streamlit app by default
-CMD ["streamlit", "run", "app/streamlit_app.py"]
+CMD ["streamlit", "run", "app/streamlit_app.py", "--server.address=0.0.0.0", "--server.port=8501"]
