@@ -7,9 +7,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-import streamlit as st
 import numpy as np
 import pandas as pd
+import streamlit as st
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -32,53 +32,53 @@ except Exception as e:
 def ensure_models_exist(artifact_dir: str = "artifacts") -> bool:
     """
     Ensure models are trained. If not, train them automatically.
-    
+
     Args:
         artifact_dir: Path to artifacts directory
-        
+
     Returns:
         True if models exist or were successfully trained
     """
     models_dir = Path(artifact_dir) / "models"
     required_files = ["vectorizer.pkl", "clusterer.pkl", "topic_modeler.pkl", "config.json"]
-    
+
     # Check if all required files exist
     files_exist = all((models_dir / f).exists() for f in required_files)
-    
+
     if files_exist:
         return True
-    
+
     # Models don't exist - train them
     st.warning("⏳ **Initializing models for first run...**")
     st.info("Training the document clustering and topic modeling pipeline. This may take 30-60 seconds on first deployment...")
-    
-    progress_placeholder = st.empty()
+
+    st.empty()
     status_placeholder = st.empty()
-    
+
     try:
         # Show status
         with status_placeholder.container():
             st.write("🔧 Training models on sample data...")
-        
+
         # Run training script
         train_script = Path(__file__).parent.parent / "scripts" / "train.py"
-        result = subprocess.run(
+        subprocess.run(
             [sys.executable, str(train_script), "--data-dir", "data/sample"],
             capture_output=True,
             text=True,
             timeout=300,  # 5 minute timeout
             check=True
         )
-        
+
         with status_placeholder.container():
             st.success("✅ Models trained successfully!")
-        
+
         # Verify files exist
         if not all((models_dir / f).exists() for f in required_files):
             raise FileNotFoundError("Models were trained but files not found")
-        
+
         return True
-        
+
     except subprocess.TimeoutExpired:
         st.error("❌ Model training timed out. Please try refreshing the page.")
         logger.error("Training timed out")

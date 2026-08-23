@@ -3,9 +3,9 @@
 import logging
 from typing import Optional
 
-from scipy.sparse import csr_matrix, load_npz, save_npz
-from sklearn.feature_extraction.text import TfidfVectorizer as SklearnTfidfVectorizer
 from joblib import dump, load
+from scipy.sparse import csr_matrix
+from sklearn.feature_extraction.text import TfidfVectorizer as SklearnTfidfVectorizer
 
 from src.config import VectorizerConfig
 
@@ -64,7 +64,7 @@ class TFIDFVectorizer:
         """
         n_samples = len(documents)
         params = self._get_adaptive_params(n_samples)
-        
+
         self.vectorizer = SklearnTfidfVectorizer(**params)
         self.vectorizer.fit(documents)
         self.is_fitted = True

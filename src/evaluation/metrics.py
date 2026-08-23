@@ -1,6 +1,5 @@
 """Evaluation metrics module."""
 
-import logging
 import numpy as np
 from sklearn.metrics import davies_bouldin_score as db_score
 from sklearn.metrics import silhouette_score as ss_score
@@ -44,7 +43,7 @@ class EvaluationMetrics:
         # Convert sparse matrix to dense if needed
         if hasattr(tfidf_matrix, 'toarray'):
             tfidf_matrix = tfidf_matrix.toarray()
-        
+
         score = db_score(tfidf_matrix, labels)
         logger.info(f"Davies-Bouldin score: {score:.4f}")
         return score

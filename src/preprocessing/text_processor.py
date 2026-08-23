@@ -4,10 +4,9 @@ import re
 import string
 from typing import Optional
 
-import nltk
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
 
 from src.config import PreprocessingConfig
 from src.utils.nltk_utils import ensure_nltk_resources

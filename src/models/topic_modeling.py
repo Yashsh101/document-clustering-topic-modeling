@@ -1,6 +1,5 @@
 """LDA Topic modeling."""
 
-import logging
 import numpy as np
 from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.feature_extraction.text import CountVectorizer
@@ -39,7 +38,7 @@ class TopicModeler:
             Self
         """
         logger.info(f"Fitting LDA with {self.config.n_topics} topics")
-        
+
         # Create count vectorizer
         self.count_vectorizer = CountVectorizer(
             max_features=100,
@@ -49,7 +48,7 @@ class TopicModeler:
         )
         count_matrix = self.count_vectorizer.fit_transform(documents)
         self.feature_names = np.array(self.count_vectorizer.get_feature_names_out())
-        
+
         # Fit LDA
         self.model = LatentDirichletAllocation(
             n_components=self.config.n_topics,
@@ -59,7 +58,7 @@ class TopicModeler:
         )
         self.doc_topic_matrix = self.model.fit_transform(count_matrix)
         self.is_fitted = True
-        
+
         logger.info(f"LDA fitted with {self.config.n_topics} topics")
         return self
 
@@ -82,7 +81,7 @@ class TopicModeler:
         """
         if not self.is_fitted:
             raise ValueError("Model must be fitted first")
-        
+
         top_indices = self.model.components_[topic_id].argsort()[-n_words:][::-1]
         return [self.feature_names[i] for i in top_indices]
 
@@ -118,7 +117,7 @@ class TopicModeler:
         """
         if not self.is_fitted or self.doc_topic_matrix is None:
             raise ValueError("Model must be fitted first")
-        
+
         doc_topics = self.doc_topic_matrix[doc_id]
         top_topic_indices = doc_topics.argsort()[-top_n:][::-1]
         return [(i, doc_topics[i]) for i in top_topic_indices]

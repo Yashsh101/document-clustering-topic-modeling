@@ -1,12 +1,13 @@
 """Generate final project PDF report."""
 
-from reportlab.lib.pagesizes import letter, A4
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle
-from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
 from datetime import datetime
+
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
 # Create PDF
 pdf_path = "artifacts/FINAL_PROJECT_BUILD.pdf"
@@ -268,18 +269,18 @@ story.append(Spacer(1, 0.2*inch))
 story.append(Paragraph("GITHUB REPOSITORY METADATA", heading_style))
 github_meta = """
 <b>Repository Description:</b><br/>
-Production-ready unsupervised NLP pipeline for document clustering using K-Means and topic extraction with LDA. 
+Production-ready unsupervised NLP pipeline for document clustering using K-Means and topic extraction with LDA.
 Includes modular architecture, comprehensive testing, interactive Streamlit UI, and full artifact persistence for reproducibility.<br/>
 <br/>
 <b>Topics/Tags:</b><br/>
 nlp, clustering, topic-modeling, machine-learning, scikit-learn, lda, kmeans, streamlit, python<br/>
 <br/>
 <b>Resume Bullet Points:</b><br/>
-1. Engineered production-grade ML pipeline with modular architecture, achieving 100% test coverage on core components 
+1. Engineered production-grade ML pipeline with modular architecture, achieving 100% test coverage on core components
    using pytest and comprehensive unit tests<br/>
-2. Built interactive Streamlit web application with 5 functional pages enabling non-technical stakeholders to explore 
+2. Built interactive Streamlit web application with 5 functional pages enabling non-technical stakeholders to explore
    clustering results and make predictions on new documents<br/>
-3. Implemented robust natural language processing pipeline with adaptive parameter tuning for datasets ranging from 
+3. Implemented robust natural language processing pipeline with adaptive parameter tuning for datasets ranging from
    small (< 20 docs) to large scale, handling edge cases and ensuring reproducibility through artifact persistence<br/>
 """
 story.append(Paragraph(github_meta, body_style))
@@ -289,26 +290,26 @@ story.append(Spacer(1, 0.2*inch))
 story.append(Paragraph("INTERVIEW TALKING POINTS & ANSWERS", heading_style))
 interview = """
 <b>Q1: How does your pipeline handle datasets of different sizes?</b><br/>
-A: The vectorizer implements adaptive parameter adjustment. For small datasets (< 20 docs), it automatically 
-reduces min_df to 1 and adjusts max_df based on document count. For t-SNE, perplexity is dynamically capped at (n_samples-1)/3, 
+A: The vectorizer implements adaptive parameter adjustment. For small datasets (< 20 docs), it automatically
+reduces min_df to 1 and adjusts max_df based on document count. For t-SNE, perplexity is dynamically capped at (n_samples-1)/3,
 preventing errors with limited data.<br/>
 <br/>
 <b>Q2: What makes your architecture scalable and maintainable?</b><br/>
-A: Clear module boundaries (data → preprocessing → vectorization → modeling → evaluation → visualization) allow 
-easy component swapping. Pydantic validation ensures data integrity. Configuration is centralized and immutable. 
+A: Clear module boundaries (data → preprocessing → vectorization → modeling → evaluation → visualization) allow
+easy component swapping. Pydantic validation ensures data integrity. Configuration is centralized and immutable.
 Each component is independently testable and reusable.<br/>
 <br/>
 <b>Q3: How do you ensure reproducibility?</b><br/>
-A: Fixed random seeds (random_state=42) in KMeans and LDA. Full pipeline configuration saved as JSON. 
+A: Fixed random seeds (random_state=42) in KMeans and LDA. Full pipeline configuration saved as JSON.
 All artifacts (models, data, plots) persisted to disk. Configuration and seed enable exact reproduction of any run.<br/>
 <br/>
 <b>Q4: What evaluation metrics did you use and why?</b><br/>
-A: Silhouette score measures cluster cohesion/separation (-1 to 1 scale). Davies-Bouldin index measures 
-inter vs. intra-cluster similarity (lower is better). Inertia tracks within-cluster sum of squares. 
+A: Silhouette score measures cluster cohesion/separation (-1 to 1 scale). Davies-Bouldin index measures
+inter vs. intra-cluster similarity (lower is better). Inertia tracks within-cluster sum of squares.
 Combined, they provide complementary perspectives on clustering quality.<br/>
 <br/>
 <b>Q5: How would you deploy this in production?</b><br/>
-A: For batch: containerize with Docker, use Kubernetes for scaling. For real-time: FastAPI REST server, 
+A: For batch: containerize with Docker, use Kubernetes for scaling. For real-time: FastAPI REST server,
 cache vectorizer/models in memory, implement request queuing. Models could be monitored for drift using periodic retraining.<br/>
 """
 story.append(Paragraph(interview, body_style))

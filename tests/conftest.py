@@ -1,8 +1,9 @@
 """Pytest configuration and fixtures."""
 
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -28,9 +29,9 @@ def sample_dir(tmp_path):
         "deep learning uses neural networks",
         "python is a great programming language",
     ]
-    
+
     for i, doc in enumerate(sample_docs):
         file_path = tmp_path / f"sample_{i}.txt"
         file_path.write_text(doc)
-    
+
     return tmp_path

@@ -1,22 +1,20 @@
 """Pipeline orchestrator module."""
 
-import logging
 import json
+import logging
 import pickle
 from pathlib import Path
-from typing import Optional, Dict, Any
-import sys
+from typing import Any, Dict, Optional
 
 from src.config import AppConfig, get_config
 from src.data.loader import DocumentLoader
-from src.preprocessing.text_processor import TextProcessor
+from src.evaluation.metrics import EvaluationMetrics
+from src.explainability.explainer import ClusterExplainer
 from src.features.vectorizer import TFIDFVectorizer
 from src.models.clustering import DocumentClusterer
 from src.models.topic_modeling import TopicModeler
-from src.evaluation.metrics import EvaluationMetrics
-from src.explainability.explainer import ClusterExplainer
+from src.preprocessing.text_processor import TextProcessor
 from src.visualization.plots import Visualizer
-from src.logger import get_logger
 
 logger = logging.getLogger(__name__)
 
@@ -133,7 +131,7 @@ class Pipeline:
         self.clusterer = DocumentClusterer(self.config.clustering)
         self.clusterer.fit(self.tfidf_matrix)
         self.cluster_labels = self.clusterer.labels
-        logger.info(f"Clustering complete")
+        logger.info("Clustering complete")
         return self
 
     def extract_topics(self):
@@ -160,7 +158,7 @@ class Pipeline:
         """Create visualizations."""
         logger.info("Step 7: Creating visualizations")
         self.visualizer = Visualizer()
-        
+
         # Create plots
         plots_dir = self.artifact_dir / "plots"
         plots_dir.mkdir(parents=True, exist_ok=True)
@@ -189,7 +187,7 @@ class Pipeline:
     def save_artifacts(self):
         """Save trained models and results."""
         logger.info("Saving artifacts")
-        
+
         models_dir = self.artifact_dir / "models"
         models_dir.mkdir(parents=True, exist_ok=True)
 
@@ -210,10 +208,10 @@ class Pipeline:
         # Save metrics (convert numpy types to native Python types)
         reports_dir = self.artifact_dir / "reports"
         reports_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Convert metrics to JSON-serializable format
         serializable_metrics = self._convert_to_serializable(self.metrics)
-        
+
         with open(reports_dir / "metrics.json", "w") as f:
             json.dump(serializable_metrics, f, indent=4)
 
@@ -224,7 +222,7 @@ class Pipeline:
     def _convert_to_serializable(obj):
         """Convert numpy and other non-serializable types to native Python types."""
         import numpy as np
-        
+
         if isinstance(obj, np.integer):
             return int(obj)
         elif isinstance(obj, np.floating):

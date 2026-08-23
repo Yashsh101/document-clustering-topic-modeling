@@ -1,6 +1,5 @@
 """K-Means clustering model."""
 
-import logging
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
@@ -39,9 +38,9 @@ class DocumentClusterer:
         # Cap n_clusters to number of samples
         n_samples = tfidf_matrix.shape[0]
         n_clusters = min(self.config.n_clusters, max(1, n_samples))
-        
+
         logger.info(f"Fitting KMeans with {n_clusters} clusters (had {self.config.n_clusters}, {n_samples} samples)")
-        
+
         self.model = KMeans(
             n_clusters=n_clusters,
             max_iter=self.config.max_iter,
@@ -50,7 +49,7 @@ class DocumentClusterer:
         )
         self.labels = self.model.fit_predict(tfidf_matrix)
         self.is_fitted = True
-        
+
         logger.info(f"KMeans fitted. Cluster distribution: {np.bincount(self.labels)}")
         return self
 
@@ -90,12 +89,12 @@ class DocumentClusterer:
             Optimal number of clusters
         """
         logger.info(f"Finding optimal clusters in range {k_range}")
-        
+
         n_samples = tfidf_matrix.shape[0]
         # Cap k_range to n_samples
         max_k = min(k_range[1], n_samples)
         min_k = min(k_range[0], max_k)
-        
+
         best_k = min_k
         best_score = -1
         scores = {}

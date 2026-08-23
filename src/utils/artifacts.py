@@ -6,7 +6,7 @@ Provides serialization/deserialization for vectorizers, models, and metadata.
 import json
 import pickle
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from src.logger import setup_logger
 
