@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "doc-clustering-topic-modeling"
 version = "1.0.0"
-description = "A production-ready unsupervised NLP pipeline for clustering documents and extracting interpretable themes"
+description = "An unsupervised NLP pipeline for clustering documents and extracting interpretable themes"
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
