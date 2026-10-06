@@ -87,7 +87,7 @@ cp .env.example .env
 Install NLTK resources:
 
 ```bash
-python -m nltk.downloader punkt stopwords wordnet averaged_perceptron_tagger
+python -m nltk.downloader punkt punkt_tab stopwords wordnet averaged_perceptron_tagger
 ```
 
 ## Environment Variables
